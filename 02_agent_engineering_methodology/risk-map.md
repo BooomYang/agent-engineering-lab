@@ -14,6 +14,8 @@
 - 长期记忆越权：把不该持久化的信息带入后续任务。
 - 混淆 session 和 context window：把当前模型可见上下文当成唯一事实来源，导致 compaction、trim 或 crash 后不可恢复。
 - session log 不可查询：trace 有记录但 agent runtime 无法按需读取、切片或恢复。
+- 记忆沉淀污染：把一次性 workaround、错误推断或过期偏好写入长期记忆。
+- 团队记忆越界：把个人偏好误当成团队规范，或把项目规则带到无关项目。
 
 ## Tool Risks
 
@@ -31,6 +33,8 @@
 - 路由错误：handoff 条件不清导致 specialist 被误用。
 - 责任漂移：manager 和 specialist 都以为对方负责最终质量。
 - nested loop 失控：agent-as-tool 内部失败但外层不可见。
+- 并行冲突：多个 specialist 共享文件系统或上下文时互相覆盖结果。
+- 汇总污染：lead agent 把低质量 specialist 输出直接合并，缺少证据和置信度标注。
 
 ## Output Risks
 
@@ -52,6 +56,9 @@
 - 只测 happy path，不测真实失败。
 - 自动评分没有经过人工校准。
 - eval 数据和生产分布脱节。
+- outcome rubric 模糊：grader 只能给泛泛反馈，无法驱动下一轮修正。
+- worker 和 grader 上下文未隔离：grader 被 worker 的解释带偏，而不是独立检查结果。
+- 自我修正无上限：agent 反复重试，成本和延迟失控。
 
 ## Production Risks
 
@@ -78,3 +85,5 @@
 | 输出难解析 | structured output / schema |
 | 不知道为什么错 | trace / logs |
 | 修好后又回退 | eval coverage |
+| 反复“不够好” | outcome rubric / grader calibration |
+| 下次重复犯错 | memory consolidation / practice retro |

@@ -55,7 +55,19 @@ https://developers.openai.com/api/docs/guides/production-best-practices
 
 agent 质量问题可能来自 prompt，但也可能来自目标定义、工具契约、上下文、状态、审批、eval、trace 或产品交互。优先定位问题所在的工程面，再选择改法。
 
-## P11. Decouple Runtime Interfaces
+## P11. Separate Worker From Grader
+
+当任务存在明确验收标准、主观质量门槛或细节覆盖要求时，不要只让同一个 agent 自评。更稳妥的结构是：worker 负责产出，grader 根据 outcome rubric 独立检查，反馈缺口后再进入下一轮。
+
+这条来自 Anthropic Managed Agents outcomes 的外部启发，先作为 `待验证` 原则。它在 coding loop 中对应“实现者”和“reviewer/test gate”的分离。
+
+## P12. Make Memory Updates Reviewable
+
+长期记忆应该来自 trace、失败样本和复盘后的高信号提炼，而不是把原始会话自动堆进去。
+
+对团队级或项目级 agent，memory 更新最好先进入候选队列，由人或 eval gate review 后再落地。错误记忆、过期偏好和一次性 workaround 一旦固化，会放大后续任务风险。
+
+## P13. Decouple Runtime Interfaces
 
 长任务 agent 不要默认把模型 loop、session 状态、sandbox 执行环境和 credential 放在同一个故障域里。
 
