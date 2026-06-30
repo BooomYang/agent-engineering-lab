@@ -12,6 +12,8 @@
 - 上下文污染：无关历史、过期信息、错误工具结果影响判断。
 - 状态重复：本地历史和 server-managed state 混用导致信息重复。
 - 长期记忆越权：把不该持久化的信息带入后续任务。
+- 混淆 session 和 context window：把当前模型可见上下文当成唯一事实来源，导致 compaction、trim 或 crash 后不可恢复。
+- session log 不可查询：trace 有记录但 agent runtime 无法按需读取、切片或恢复。
 
 ## Tool Risks
 
@@ -20,6 +22,8 @@
 - 返回值不稳定：下游解析困难。
 - 副作用不可控：写入、删除、付款、发消息没有审批或审计。
 - 失败不可恢复：工具报错没有可执行的下一步。
+- sandbox 和工具环境耦合过深：执行环境失败时，agent session、状态和调试能力一起丢失。
+- credential 可被 generated code 读取：sandbox 内能看到长期 token、环境变量或外部系统凭据。
 
 ## Orchestration Risks
 
@@ -56,6 +60,8 @@
 - 没有 trace/log，线上问题无法定位。
 - 没有版本和回滚策略。
 - 没有数据保留、隐私和合规边界。
+- harness、session、sandbox 同故障域：单个容器或进程失败会丢失长任务上下文。
+- 缺少可恢复边界：harness crash、tool timeout、sandbox restart 后无法判断是否应该 retry、resume、rollback 或 escalate。
 
 ## Debugging Rule
 
@@ -66,7 +72,9 @@
 | 回答泛泛 | goal contract / instructions / context |
 | 工具调用错 | tool description / parameters / routing |
 | 多轮混乱 | state strategy / history assembly |
+| 长任务崩溃无法恢复 | session log / recovery boundary |
 | 擅自执行 | approval policy / tool permission |
+| 生成代码能读到密钥 | sandbox / credential boundary |
 | 输出难解析 | structured output / schema |
 | 不知道为什么错 | trace / logs |
 | 修好后又回退 | eval coverage |

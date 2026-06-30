@@ -54,3 +54,9 @@ https://developers.openai.com/api/docs/guides/production-best-practices
 ## P10. Improve The System, Not Just The Prompt
 
 agent 质量问题可能来自 prompt，但也可能来自目标定义、工具契约、上下文、状态、审批、eval、trace 或产品交互。优先定位问题所在的工程面，再选择改法。
+
+## P11. Decouple Runtime Interfaces
+
+长任务 agent 不要默认把模型 loop、session 状态、sandbox 执行环境和 credential 放在同一个故障域里。
+
+把 brain、session、hands 和 credential boundary 拆成清晰接口，可以让 harness、sandbox 和上下文策略随模型能力演进而替换，同时保留恢复、审计和安全边界。

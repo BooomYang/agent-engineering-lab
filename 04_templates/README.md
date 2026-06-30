@@ -7,6 +7,7 @@
 - [agent-design-brief.md](agent-design-brief.md)：设计一个 agent 前填写。
 - [tool-spec.md](tool-spec.md)：定义或评审一个工具前填写。
 - [eval-plan.md](eval-plan.md)：为 agent 或 workflow 设计 eval。
+- [trace-to-eval-handoff.md](trace-to-eval-handoff.md)：把真实 trace、反馈和 eval 结果转成 Codex 可执行的改进任务。
 - [practice-retro.md](practice-retro.md)：实践复盘和问题沉淀。
 
 ## Rule
