@@ -7,6 +7,8 @@
 - [agent-design-brief.md](agent-design-brief.md)：设计一个 agent 前填写。
 - [tool-spec.md](tool-spec.md)：定义或评审一个工具前填写。
 - [eval-plan.md](eval-plan.md)：为 agent 或 workflow 设计 eval。
+- [outcome-rubric.md](outcome-rubric.md)：为 agent 输出定义验收标准、独立 grader 和重试策略。
+- [production-readiness-scorecard.md](production-readiness-scorecard.md)：上线前评估 agent 的生产工程成熟度。
 - [practice-retro.md](practice-retro.md)：实践复盘和问题沉淀。
 
 ## Rule
