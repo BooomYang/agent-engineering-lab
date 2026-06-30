@@ -2,10 +2,11 @@
 
 ## P0
 
-- [ ] Trace-to-eval 模板：从一次失败 trace 提取 eval case。
+- [x] Trace-to-eval 模板：从一次失败 trace 提取 eval case。
 - [ ] Outcome rubric runner：把任务验收标准转成独立 grader、actionable feedback 和 bounded retry policy。
 - [ ] Tool spec checklist：评审工具名称、description、schema、副作用、审批和失败语义。
 - [ ] Agent design review checklist：评审 agent definition 是否职责过宽、状态混乱或缺少 guardrail。
+- [ ] Codex handoff schema checker：检查 handoff 是否包含 trace ids、feedback source、问题分类、目标改动面和验证方式。
 
 ## P1
 
@@ -15,6 +16,7 @@
 - [ ] Multi-agent split decision tree。
 - [ ] Multi-agent parallel investigation harness：用于日志、trace、issue、commit 等低耦合资料并行分析。
 - [ ] Human review UI requirement template。
+- [ ] Managed-agent runtime interface checklist：检查 brain、session、hands、credential boundary 和 recovery boundary 是否解耦。
 
 ## P2
 

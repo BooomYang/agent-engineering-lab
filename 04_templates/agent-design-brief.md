@@ -36,6 +36,17 @@
 - Memory policy:
 - Data that must not enter context:
 
+## Runtime Architecture
+
+- Brain/harness location:
+- Session log owner:
+- Session recovery strategy:
+- Sandbox or execution environment:
+- Tool execution interface:
+- Credential boundary:
+- Provision/retry policy:
+- Failure modes that must be recoverable:
+
 ## Tool Surface
 
 | Tool | Purpose | Side effect level | Approval needed | Failure behavior |

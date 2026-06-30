@@ -88,6 +88,56 @@ real traces
   -> rerun evals
 ```
 
+## Trace-To-Eval Intake
+
+从一次 agent 运行到一个可回归的 eval，至少要保留这条证据链：
+
+| Signal | Purpose |
+| --- | --- |
+| Trace | 记录模型调用、工具调用、handoff、guardrail、输出 artifact 和错误。 |
+| Human feedback | 标记领域上必须出现的观察、禁止出现的结论、风险优先级和业务判断。 |
+| Model feedback | 扩展可疑行为、重复模式和可能缺失的检查点，但不替代人工校准。 |
+| Eval definition | 把反馈变成 expected behavior、rubric、deterministic assertion、pass/fail example。 |
+| Gate result | 记录当前 harness 是否通过，以及失败解释。 |
+| Handoff | 把证据、优先级、改动面和验证方式交给 Codex 或人类工程师。 |
+
+OpenAI 当前 Agents SDK 文档将 traces 放在 debugging 和系统化评估之间：先用 traces 看清行为，再用 graders、datasets 和 eval runs 做重复评估。
+
+相关入口：
+
+- Integrations and observability: https://developers.openai.com/api/docs/guides/agents/integrations-observability
+- Evaluate agent workflows: https://developers.openai.com/api/docs/guides/agent-evals
+
+## Harness Change Handoff
+
+Codex handoff 不应该只是总结，而应该能直接进入实现工作。最小字段：
+
+- 当前 harness version 和相关 trace ids。
+- 反馈来源：human feedback、model feedback、eval result、runtime error。
+- 问题分类：`missing requirement` / `present but unreliable` / `implementation or observability defect`。
+- 目标改动面：prompt、tool policy、tool implementation、routing、output schema、validator、eval suite、human gate。
+- 推荐优先级、影响、置信度和实现成本。
+- 验证方式：要新增或重跑哪些 eval，是否需要人工复核。
+- 剩余风险和回滚方式。
+
+## Reviewed Loop Before Closed Loop
+
+默认先用 reviewed loop：
+
+```text
+trace + feedback
+  -> generated eval proposal
+  -> human eval refinement
+  -> Codex handoff
+  -> reviewed PR
+  -> rerun eval gate
+  -> promote or rollback
+```
+
+只有当 eval gate、artifact validation、权限边界和回滚策略都稳定后，才考虑更自动化的 closed loop。即使进入 closed loop，human gates 仍然可以保留在 trace review、eval refinement、PR approval、merge 或 deployment 上。
+
+注意：OpenAI Evaluation best practices 在 2026-06-17 已提示 legacy Evals platform 有退役时间表。本项目沉淀的是 eval-driven improvement 的工程原则和 agent workflow evaluation surface，不把任何单一 eval 平台写成长期默认。
+
 ## Practice Rule
 
 每次修 agent，都尽量留下一个 eval case 或 trace link。没有 eval 的修复，很容易在下一轮 prompt、tool 或模型变更中回退。

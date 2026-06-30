@@ -47,6 +47,12 @@
 | P0 | Build an Agent Improvement Loop with Traces, Evals, and Codex | https://developers.openai.com/cookbook/examples/agents_sdk/agent_improvement_loop | 非常适合作为本项目的核心范例：从 traces 到反馈、eval，再到 Codex 改进。 |
 | P1 | Build iterative repair loops with Codex | https://developers.openai.com/cookbook/examples/codex/build_iterative_repair_loops_with_codex | 和 `loop-engineering-lab` 交叉，可用于理解修复循环。 |
 
+## Official Article Notes
+
+| Date | Source | Note | Status |
+| --- | --- | --- | --- |
+| 2026-06-17 | Build an Agent Improvement Loop with Traces, Evals, and Codex | [openai-agent-improvement-loop.md](openai-agent-improvement-loop.md) | mapped |
+
 ## External Sources Queue
 
 后续外部文章登记在这里。登记后不要直接改方法论，先做结构化笔记。
@@ -55,6 +61,8 @@
 | --- | --- | --- | --- | --- | --- |
 | 2026-06-16 | external | How to Build an AI Agent in 2026: From Prototype to Production | https://logic.inc/guides/how-to-build-an-ai-agent | mapped | 笔记：[logic-how-to-build-ai-agent-2026.md](logic-how-to-build-ai-agent-2026.md)。第三方生产化指南，重点是 typed contracts、eval、版本化、observability、model independence、robust deployments。 |
 | 2026-06-17 | external | New in Claude Managed Agents: dreaming, outcomes, and multiagent orchestration | https://claude.com/blog/new-in-claude-managed-agents | mapped | 笔记：[claude-managed-agents-dreaming-outcomes-multiagent.md](claude-managed-agents-dreaming-outcomes-multiagent.md)。Anthropic vendor source，重点是 memory/dreaming、outcome rubric、独立 grader、多 agent 并行和 traceable orchestration。 |
+| 2026-06-22 | external | Scaling Managed Agents: Decoupling the brain from the hands | https://www.anthropic.com/engineering/managed-agents | mapped | [anthropic-managed-agents.md](anthropic-managed-agents.md)。Anthropic engineering source，重点是 brain/hands/session 解耦、sandbox-as-tool、credential boundary 和 runtime recovery。 |
+|  | external |  |  | queued |  |
 
 ## Practice Sources Queue
 

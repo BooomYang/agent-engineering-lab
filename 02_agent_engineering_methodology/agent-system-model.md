@@ -80,6 +80,15 @@ https://developers.openai.com/api/docs/guides/agents/define-agents
 状态策略要回答：下一轮是 replay 历史、使用 session、使用 conversation id，还是使用 previous response id。OpenAI Running agents 文档把状态延续作为 runtime 的核心问题之一：
 https://developers.openai.com/api/docs/guides/agents/running-agents
 
+对长任务 agent，还要区分 `session` 和 `context window`：
+
+- `session` 是可持久化、可审计、可恢复的事件日志或状态对象。
+- `context window` 是某一轮模型调用可见的工作集。
+- harness 可以从 session 中选择、切片、压缩或重组上下文，但这些转换不应该成为唯一事实来源。
+
+Anthropic Managed Agents 文章把 session 设计成 append-only event log，并通过 `getEvents()` 让 harness 选择 event slices。这个模式作为 external source 记录，适合纳入待验证的长任务 runtime 设计假设：
+https://www.anthropic.com/engineering/managed-agents
+
 ### 5. Orchestration
 
 不要过早多 agent。先问：
@@ -159,6 +168,31 @@ https://logic.inc/guides/how-to-build-an-ai-agent
 
 在本项目中，这条先作为 `待验证` 方法论：真实项目里应记录 bundle manifest 是否降低了回滚、复现和对比 eval 的成本。
 
+### 10. Harness Improvement
+
+`harness` 是 agent 周围的完整运行契约，不只是 prompt。它包括：
+
+- instructions 和角色边界。
+- tool policy、权限和失败语义。
+- routing、handoff 和 control flow。
+- output requirements 和 artifact schema。
+- validation checks、guardrails 和 human gates。
+- trace 字段、eval metadata 和版本信息。
+
+改进 agent 时，先判断问题属于 `missing requirement`、`present but unreliable`，还是 `implementation / observability defect`。这样 Codex 或人类工程师拿到的不是模糊建议，而是可落到 diff、eval 和回滚策略的 harness change。
+
+### 11. Runtime Interfaces
+
+长任务 agent 需要把运行时边界显式化，而不是默认把所有东西放进一个进程或容器：
+
+- brain：模型调用和 harness loop。
+- session：持久事件日志、状态和恢复依据。
+- hands：sandbox、tools、MCP server、外部系统连接器。
+- credential boundary：密钥、OAuth token、repo token 等是否能被 sandbox 或 generated code 读取。
+- recovery boundary：brain、session、hand 任一部分失败后，是否能重启、重放、恢复或安全停止。
+
+一个实用原则是：稳定 interface 优先于当前 harness 实现。模型能力、上下文策略和 sandbox 实现会变化，session/event、tool execution、credential proxy、provision/retry 这些接口更应该稳定。
+
 ## Design Heuristic
 
 当一个 agent 表现不好时，不要只改 prompt。按这个顺序排查：
@@ -173,3 +207,5 @@ https://logic.inc/guides/how-to-build-an-ai-agent
 8. 是否有 eval 防止下次回退？
 9. 当前行为是否能追溯到一个明确的 agent bundle 版本？
 10. 是否需要 outcome rubric 和独立 grader 来定义“够好”？
+11. 修复目标是否明确落在 harness 的某个部分？
+12. session、harness、sandbox/tool 和 credential boundary 是否被错误耦合？
