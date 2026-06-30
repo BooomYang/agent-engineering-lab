@@ -16,6 +16,62 @@ User goal
   -> trace + eval + improvement loop
 ```
 
+## Production-Minimum Skeleton
+
+生产级 agent 的最小骨架不是“把所有高级模块都装上”，而是先让每次运行都有明确边界、可控动作、可恢复状态和可回归证据。
+
+| Module | Why it is indispensable |
+| --- | --- |
+| Goal contract | 没有可观察完成标准、停止条件和失败出口，就无法判断 agent 是完成、卡住、越界还是应该升级给人。 |
+| Focused agent definition | 需要明确 name、instructions、model/settings、工具面、输出契约和审批策略，避免一个大 prompt 承担所有责任。 |
+| Bounded runtime loop | agent 至少要有“计划或选择下一步 -> 调工具或生成结果 -> 观察 -> 继续/暂停/结束”的受控循环，而不是无限 while 或单次问答。 |
+| Context and state assembly | 每轮必须知道当前目标、可信事实、工具观察、历史状态和权限约束分别来自哪里；否则会出现历史污染、重复执行和越权。 |
+| Tool contract and permissions | 只要 agent 能影响外部系统，工具就必须有 schema、返回结构、错误语义、副作用等级、权限和审计。 |
+| Output contract and validation | 如果输出会进入程序、UI、数据库、工具或 eval，就不能只依赖自由文本；需要结构或至少有可验证语义。 |
+| Safety controls | 只读、写入、删除、发送、支付、shell、敏感 MCP 等动作必须分级；高风险动作需要 guardrail 或 human review。 |
+| Trace/log | 没有 trace 就无法知道失败发生在目标、上下文、工具、路由、审批、模型输出还是恢复策略。 |
+| Minimal eval/recovery loop | 生产级不是零失败，而是能把失败样本转成 eval 或检查项，并有超时、重试、降级、暂停或人工升级策略。 |
+
+一个实践上的最小形态可以是：
+
+```text
+Agent Core
+  -> goal contract
+  -> focused agent definition
+  -> bounded runtime loop
+  -> context/state builder
+  -> tool registry with permission levels
+  -> guardrail/approval gate
+  -> output validator
+  -> trace logger
+  -> minimal eval and recovery set
+```
+
+这里的 `bounded runtime loop` 不等于一定要上完整 workflow engine 或 FSM。最小要求是状态、下一步、停止条件和失败出口可被系统记录和检查。
+
+## Progressive Capability Boundaries
+
+外部文章常把生产 agent 能力列成大而全的清单，这对排查风险有帮助，但不应变成默认架构。进阶模块应该按触发条件引入。
+
+| Capability | Introduce when | Avoid when |
+| --- | --- | --- |
+| Explicit FSM / workflow engine | 任务有稳定阶段、可断点续跑、需要回放、重试或人工审批；例如调研、写作、CI 修复、订单处理。 | 任务只有 1-2 个简单步骤，状态记录和停止条件已经足够。 |
+| RAG / retrieval | agent 必须回答私有知识、长文档、代码库、历史记录或时效性资料。 | agent 只处理用户当前输入、工具实时返回或小规模内置规则。 |
+| Hybrid search | 知识库同时包含自然语言、代码符号、错误码、配置名、专有名词，vector-only 容易漏精确词。 | 语料很小、关键词不重要，或简单 metadata filter 已能满足。 |
+| Reranker | 初召回噪声高，top-k 顺序明显影响答案质量，且延迟/成本预算允许。 | 召回结果很少、排序已足够、低延迟比精排更重要。 |
+| Query rewrite | 用户问题短、口语、跨语言、包含“这个/那个”等指代，直接检索不稳定。 | 用户输入已经是明确关键词、ID、错误码或结构化查询。 |
+| Long-term memory | 需要跨会话保留用户偏好、项目背景、流程习惯或历史事件。 | 任务一次性完成，或隐私/合规成本高于收益。 |
+| Memory layering | 同时存在 session memory、task state、user preference、domain knowledge、tool trajectory，且混放会污染上下文。 | 只需要当前会话短历史和少量状态字段。 |
+| Planner / Executor / Verifier | 任务复杂、步骤多、容易把宣传当事实、需要独立验收或角色权限不同。 | 简单任务中拆角色只会增加 token、延迟和责任漂移。 |
+| Multi-agent / handoff | 不同 specialist 需要不同工具面、模型、审批策略、输出风格或 trace 中的显式责任边界。 | 单个 focused agent 能清楚完成任务；不要因为“多 agent”本身而拆分。 |
+| Tool router | 工具数量多、风险等级不同、存在必须查证/禁止调用/必须审批的规则。 | 工具很少且工具选择已经由 agent instructions 稳定约束。 |
+| Sandbox | agent 会执行代码、shell、文件改写、依赖安装或处理不可信输入。 | 只读问答、低风险草稿生成，或已有外部隔离环境。 |
+| Idempotency layer | 工具有副作用并可能重试，例如发消息、付款、提交、删除、修改生产数据。 | 纯只读工具或一次性本地草稿生成。 |
+| Cost/caching layer | 请求量、上下文、检索、工具结果或模型调用成本已经成为约束。 | 原型阶段请求量很小，缓存一致性和失效策略会拖慢迭代。 |
+| Advanced eval platform | 需要比较版本、批量回归、自动评分、人类反馈闭环或上线准入。 | 早期探索还没有稳定任务定义；先保留小 golden set 和失败样本。 |
+
+边界原则：先把最小骨架做扎实，再用真实 trace、失败样本、成本和用户风险证明某个进阶模块值得引入。
+
 ## Core Components
 
 ### 1. Goal Contract
