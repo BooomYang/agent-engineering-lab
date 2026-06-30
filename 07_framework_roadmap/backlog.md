@@ -15,6 +15,7 @@
 - [ ] OpenAI official docs link checker。
 - [ ] Multi-agent split decision tree。
 - [ ] Multi-agent parallel investigation harness：用于日志、trace、issue、commit 等低耦合资料并行分析。
+- [ ] Edge-cloud agent design checklist：面向 iOS/Android 的端侧、边缘云、深度云路由、隐私、权限、缓存和 trace 评审。
 - [ ] Human review UI requirement template。
 - [ ] Managed-agent runtime interface checklist：检查 brain、session、hands、credential boundary 和 recovery boundary 是否解耦。
 

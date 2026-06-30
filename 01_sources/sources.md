@@ -61,6 +61,7 @@
 | --- | --- | --- | --- | --- | --- |
 | 2026-06-16 | external | How to Build an AI Agent in 2026: From Prototype to Production | https://logic.inc/guides/how-to-build-an-ai-agent | mapped | 笔记：[logic-how-to-build-ai-agent-2026.md](logic-how-to-build-ai-agent-2026.md)。第三方生产化指南，重点是 typed contracts、eval、版本化、observability、model independence、robust deployments。 |
 | 2026-06-17 | external | New in Claude Managed Agents: dreaming, outcomes, and multiagent orchestration | https://claude.com/blog/new-in-claude-managed-agents | mapped | 笔记：[claude-managed-agents-dreaming-outcomes-multiagent.md](claude-managed-agents-dreaming-outcomes-multiagent.md)。Anthropic vendor source，重点是 memory/dreaming、outcome rubric、独立 grader、多 agent 并行和 traceable orchestration。 |
+| 2026-06-18 | external | 2026 微信 AI 搜索 Agent 全栈实战：从架构原理到工程落地，下一代智能入口深度解析 | https://blog.csdn.net/weixin_42376192/article/details/160007309 | mapped | 已收录到 [2026-06-18-csdn-wechat-ai-search-agent.md](2026-06-18-csdn-wechat-ai-search-agent.md)，重点提炼端云协同 agent 架构；具体腾讯产品和规模数字待官方验证。 |
 | 2026-06-22 | external | Scaling Managed Agents: Decoupling the brain from the hands | https://www.anthropic.com/engineering/managed-agents | mapped | [anthropic-managed-agents.md](anthropic-managed-agents.md)。Anthropic engineering source，重点是 brain/hands/session 解耦、sandbox-as-tool、credential boundary 和 runtime recovery。 |
 |  | external |  |  | queued |  |
 
