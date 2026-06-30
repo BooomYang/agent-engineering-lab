@@ -51,3 +51,7 @@ agent 可调用的外部能力，可以是函数、本地服务、MCP server、h
 ## Agent Improvement Loop
 
 从 traces 和真实反馈出发，形成 eval，定位问题，修改系统，再回归验证的持续改进循环。
+
+## Edge-cloud Agent Architecture
+
+把一个 agent system 拆成端侧、边缘云和深度云等 runtime tier，根据任务复杂度、隐私等级、设备能力、网络条件、延迟和成本动态路由。它描述的是部署和运行拓扑，不必然等同于多 agent 角色拆分。

@@ -19,6 +19,7 @@
 ## Files
 
 - [agent-system-model.md](agent-system-model.md)：agent system 的基础结构图。
+- [edge-cloud-agent-architecture.md](edge-cloud-agent-architecture.md)：移动端、边缘云、深度云协同的 agent 架构假设和设计检查项。
 - [principles.md](principles.md)：首版工程原则。
 - [risk-map.md](risk-map.md)：agent 常见风险地图。
 - [glossary.md](glossary.md)：术语表。
