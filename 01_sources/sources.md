@@ -63,6 +63,8 @@
 | 2026-06-17 | external | New in Claude Managed Agents: dreaming, outcomes, and multiagent orchestration | https://claude.com/blog/new-in-claude-managed-agents | mapped | 笔记：[claude-managed-agents-dreaming-outcomes-multiagent.md](claude-managed-agents-dreaming-outcomes-multiagent.md)。Anthropic vendor source，重点是 memory/dreaming、outcome rubric、独立 grader、多 agent 并行和 traceable orchestration。 |
 | 2026-06-18 | external | 2026 微信 AI 搜索 Agent 全栈实战：从架构原理到工程落地，下一代智能入口深度解析 | https://blog.csdn.net/weixin_42376192/article/details/160007309 | mapped | 已收录到 [2026-06-18-csdn-wechat-ai-search-agent.md](2026-06-18-csdn-wechat-ai-search-agent.md)，重点提炼端云协同 agent 架构；具体腾讯产品和规模数字待官方验证。 |
 | 2026-06-22 | external | Scaling Managed Agents: Decoupling the brain from the hands | https://www.anthropic.com/engineering/managed-agents | mapped | [anthropic-managed-agents.md](anthropic-managed-agents.md)。Anthropic engineering source，重点是 brain/hands/session 解耦、sandbox-as-tool、credential boundary 和 runtime recovery。 |
+| 2026-06-30 | external | Agent系统进化论 | [local](Agent系统进化论.md) | queued | 新增本地原文，尚未结构化精读和映射。 |
+| 2026-06-30 | external | 如何让 AI 快速搭建一套生产 Agent？全面理解 Agent 架构 | [local](如何让%20AI%20快速搭建一套生产%20Agent%20？全面理解%20Agent%20架构.md) | mapped | 通俗的生产 agent 架构清单；已提炼为最小骨架与进阶模块边界，见 [article note](agent-production-architecture-note.md)。 |
 |  | external |  |  | queued |  |
 
 ## Practice Sources Queue
